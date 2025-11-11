@@ -1,0 +1,13 @@
+<div class="navigation-cards-container">
+  @for (card of configuration.cards; track $index) {
+    @if (!card.isToHide()) {
+      <mat-card class="navigation-card" (click)="navigate(card.route)">
+        <div class="card-content">
+          <sdk-icon [configuration]="card.icon"></sdk-icon>
+          <span class="card-label">{{ card.label }}</span>
+        </div>
+        <div class="reflection"></div>
+      </mat-card>
+    }
+  }
+</div>

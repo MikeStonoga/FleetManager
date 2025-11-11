@@ -6,6 +6,21 @@ import { AppTranslation } from "./app.translation";
 })
 export class BrazilianPortugueseTranslation 
 implements AppTranslation {
+    fleets = { 
+        title: 'Frotas',
+        fleet: 'Frota',
+    };
+
+    vehicles = { 
+        title: 'Veículos', 
+        vehicle: 'Veículo', 
+    };
+
+    vehicleTypes = { 
+        title: 'Tipos de Veículos', 
+        vehicleType: 'Tipo de Veículo', 
+    };
+
     mainToolbar = {
         menus: {
             goTo: 'Ir para',

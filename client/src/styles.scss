@@ -46,9 +46,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   align-items: center;
 }
 
+.fx-align-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .fx-align-center {
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.fx-space-between {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -56,6 +68,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin-left: 0.5rem !important;
 }
 
+.w-100 {
+  width: 100% !important;
+}
 
 /* ============================
    Volvo Fonts Configuration

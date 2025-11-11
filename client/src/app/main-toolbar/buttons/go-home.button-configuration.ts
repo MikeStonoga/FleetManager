@@ -20,7 +20,7 @@ extends SdkButtonConfiguration {
             color: VolvoColors.White,
            }),
            onClick: ($event) => {
-            router.navigateByUrl('/home');
+            router.navigateByUrl('/restricted-area/home');
            }
         })
     }

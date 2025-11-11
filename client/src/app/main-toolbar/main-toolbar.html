@@ -1,11 +1,17 @@
 <sdk-toolbar [configuration]="toolbarConfiguration">
-
-    <sdk-button [configuration]="menuButtonConfiguration()" />
-
-    <img src="/Volvo-Spread-Word-Mark-White.svg" height="100px" width="110px"/>
+    <section class="fx-space-between w-100">
+        <section class="fx-align-start">
+            <sdk-button [configuration]="menuButtonConfiguration()" />
+        
+            <img src="/Volvo-Spread-Word-Mark-White.svg" height="100px" width="110px"/>
+            
+            <sdk-button [configuration]="goHomeButtonConfiguration" />
+        </section>
     
-    <sdk-button [configuration]="goHomeButtonConfiguration" />
-    
+        <section class="fx-align-end">
+            <!-- <sdk-button [configuration]="logoutButtonConfiguration" /> -->
+        </section>
+    </section>
 </sdk-toolbar>
 <mat-drawer-container class="example-container" autosize >
 

@@ -5,6 +5,7 @@ import { VolvoColors } from '../../app/commons/colors';
 export interface ISdkIconConfiguration {
   name: string;
   color: VolvoColors;
+  changeColor(newColor: VolvoColors): void;
 }
 
 export interface ISdkIconConfigurationRequirement {
