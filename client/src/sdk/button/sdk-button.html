@@ -1,0 +1,10 @@
+@if (!configuration().isToHide()) {
+    <button (click)="onClick($event)"
+        matIconButton 
+        [disabled]="configuration().isDisabled()" 
+        [aria-label]="configuration().label"
+        [matTooltip]="configuration().label"
+    >
+        <sdk-icon [configuration]="configuration().icon" />
+    </button>
+}

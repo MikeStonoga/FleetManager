@@ -1,0 +1,35 @@
+<sdk-toolbar [configuration]="toolbarConfiguration">
+
+    <sdk-button [configuration]="menuButtonConfiguration()" />
+
+    <img src="/Volvo-Spread-Word-Mark-White.svg" height="100px" width="110px"/>
+    
+    <sdk-button [configuration]="goHomeButtonConfiguration" />
+    
+</sdk-toolbar>
+<mat-drawer-container class="example-container" autosize >
+
+
+    <mat-drawer #drawer class="example-sidenav" [ngStyle]="{ backgroundColor: toolbarConfiguration.backgroundColor }" mode="over" >
+        
+        <nav>
+            <ul>
+                @for (menu of menus; track $index) {
+                    <li class="fx-align-start" 
+                        [matTooltip]="goToTooltip"
+                        (click)="onMenuSelected(menu)"
+                    >
+                        <sdk-icon  [configuration]="menu.icon" />
+                        <h3 class="ml-half">{{ menu.label }}</h3>
+                    </li>
+                }
+            </ul>
+        </nav>
+        <!-- TODO: ADD MENU! -->
+    </mat-drawer>
+
+    <div class="example-sidenav-content">
+        <ng-content />
+    </div>
+
+</mat-drawer-container>

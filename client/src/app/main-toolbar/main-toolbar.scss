@@ -1,0 +1,28 @@
+mat-drawer-container {
+    height: calc(100vh - 3rem);
+    overflow: scroll;
+}
+
+::ng-deep mat-toolbar {
+    height: 3rem !important;
+}
+
+nav {
+    & ul {
+        & li {
+            cursor: pointer;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            opacity: 0.85;
+            &:hover {
+                opacity: 1;
+                transition: 0.5s;
+            }
+
+            & h3 {
+                color: white;
+            }
+        }
+    }
+}

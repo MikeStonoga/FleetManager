@@ -1,0 +1,24 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/00.Core/" />
+  <Folder Name="/src/00.Core/00.BusinessModels/">
+    <Project Path="BusinessModels.Abstractions/BusinessModels.Abstractions.csproj" Id="07fb5990-12e2-467e-8771-b0e2b1b1f5e9" />
+    <Project Path="BusinessModels/BusinessModels.csproj" />
+  </Folder>
+  <Folder Name="/src/00.Core/01.Application/">
+    <Project Path="Application.Abstractions/Application.Abstractions.csproj" Id="660e6243-0bf9-403c-92e9-48df2a7a8d16" />
+    <Project Path="Application/Application.csproj" Id="cd498d0c-f369-4a6c-996d-8d7e7ee6240b" />
+  </Folder>
+  <Folder Name="/src/01.Adapters/">
+    <Project Path="Adapters.Data.Persistency/Adapters.Data.Persistency.csproj" Id="a2103146-83f8-4927-b488-c077e5cf3222" />
+  </Folder>
+  <Folder Name="/src/02.Infrastructure/">
+    <Project Path="Infra.Data.EfCore.PostgreSql/Infra.Data.EfCore.PostgreSql.csproj" Id="7bd81c1f-f829-4cc2-8d2b-77c0f34daca2" />
+  </Folder>
+  <Folder Name="/src/03.APIs/">
+    <Project Path="API.WebHost/API.WebHost.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="Tests.Unit/Tests.Unit.csproj" Id="75e469ed-4d57-4e85-9dfa-61daa579e5d8" />
+  </Folder>
+</Solution>

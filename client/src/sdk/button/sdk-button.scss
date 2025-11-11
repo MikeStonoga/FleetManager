@@ -1,0 +1,8 @@
+button[matIconButton] {
+  transition: transform 0.15s ease-in-out;
+
+  &:active {
+    transform: scale(1.5);
+    transition: transform 0.1s ease-in-out;
+  }
+}

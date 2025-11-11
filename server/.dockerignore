@@ -1,0 +1,21 @@
+# Git
+.git
+.gitignore
+
+# Build artifacts
+bin
+obj
+out
+publish
+
+# IDEs
+.vscode
+.idea
+
+# User config
+*.user
+*.suo
+
+# Misc
+README.md
+LICENSE

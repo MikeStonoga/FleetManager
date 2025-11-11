@@ -1,0 +1,74 @@
+services:
+  # =============== FRONTEND (Angular 20) ===============
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: fleetmanager-client
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - server
+    networks:
+      - fleetnet
+
+  # =============== BACKEND (.NET API) ===============
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: fleetmanager-server
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=fleetdb;Username=postgres;Password=postgres
+    ports:
+      - "5000:8080"
+    depends_on:
+      - db
+    networks:
+      - fleetnet
+
+  # =============== DATABASE (PostgreSQL) ===============
+  db:
+    image: postgres:16
+    container_name: fleetmanager-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=fleetdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - fleetnet
+    # Não rebuilda nunca, é imagem oficial
+
+  # =============== PGADMIN (Database UI) ===============
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: fleetmanager-pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@volvo.com
+      - PGADMIN_DEFAULT_PASSWORD=Fl3tM4n4G3r
+    ports:
+      - "8081:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin  # ✅ volume persistente
+    depends_on:
+      - db
+    networks:
+      - fleetnet
+
+    # Também imagem oficial, sem rebuild
+
+networks:
+  fleetnet:
+
+volumes:
+  pgdata:
+  pgadmin_data:
+

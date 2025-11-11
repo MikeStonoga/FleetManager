@@ -1,0 +1,16 @@
+# Node & Angular build cache
+node_modules
+dist
+.angular
+.npm
+coverage
+
+# Git and IDE
+.git
+.gitignore
+.vscode
+.idea
+
+# Docs & misc
+README.md
+LICENSE
