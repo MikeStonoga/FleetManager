@@ -1,0 +1,123 @@
+.fleets-container {
+  display: grid;
+  gap: 1.5rem;
+  padding: 2rem;
+  box-sizing: border-box;
+  width: 100%;
+  height: calc(100vh - 4rem);
+  overflow-x: hidden;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  background-image: url('/fleet.jpg');
+  background-position: center; 
+  background-repeat: no-repeat;
+  background-size: cover; 
+}
+
+.fleet-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.08); /* translúcido */
+  backdrop-filter: blur(10px); /* vidro fosco */
+  border-radius: 1.25rem;
+  color: white;
+  padding: 1.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  max-height: 200px;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeIn 0.8s ease-in-out;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(255, 255, 255, 0.15);
+  }
+
+  .fleet-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    sdk-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      flex-shrink: 0;
+    }
+
+    .fleet-info {
+        h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        
+        p {
+        color: black;
+        margin: 0.25rem 0 0;
+        font-size: 1.2rem;
+        opacity: 0.8;
+      }
+    }
+  }
+
+  .fleet-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .reflection {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      120deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.25) 50%,
+      transparent 100%
+    );
+    transform: rotate(25deg);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+
+  &:hover .reflection {
+    opacity: 1;
+  }
+}
+
+/* Animação de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .fleets-container {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .fleet-card {
+    padding: 1rem;
+    .fleet-header sdk-icon {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .fleet-info h3 {
+      font-size: 1rem;
+    }
+  }
+}

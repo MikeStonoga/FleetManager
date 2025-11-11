@@ -1,5 +1,16 @@
 <mat-toolbar [class]="'toolbar'" 
-    [ngStyle]="{ backgroundColor: configuration().backgroundColor }"
+    [ngStyle]="{ backgroundColor: configuration().backgroundColor ?? volvoGrey }"
 >
-    <ng-content />
+    <section class="fx-space-between w-100">
+        <section class="fx-align-start">
+            <sdk-icon [configuration]="configuration().icon" />
+            <h2>{{ configuration().label }}</h2>
+        </section>
+        
+        <section class="fx-align-end">
+            @for (button of configuration().endButtons; track $index) {
+                <sdk-button [configuration]="button" />
+            }
+        </section>
+    </section>
 </mat-toolbar>

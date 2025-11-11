@@ -1,4 +1,24 @@
 export interface AppTranslation {
+    commons: {
+        yes: string;
+        no: string;
+        areYouSure: string;
+        removed: string;
+        remove: string;
+        registered: string;
+        register: string;
+        refresh: string;
+        save: string;
+        properties: {
+            name: string;
+        };
+        vehiclesCount: string;
+        goToDetails: string;
+        edit: string;
+        edited: string;
+        goBackToList: string;
+    };
+
     fleets: {
         title: string;
         fleet: string;

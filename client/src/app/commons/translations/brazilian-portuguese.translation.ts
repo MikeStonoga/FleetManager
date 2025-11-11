@@ -6,6 +6,26 @@ import { AppTranslation } from "./app.translation";
 })
 export class BrazilianPortugueseTranslation 
 implements AppTranslation {
+    commons = {
+        yes: 'Sim',
+        no: 'Não',
+        register: 'Registrar',
+        areYouSure: 'Está certo disto?',
+        registered: 'Registrado',
+        refresh: 'Atualizar',
+        goBackToList: 'Voltar para a Lista',
+        goToDetails: 'Ir para Detalhes',
+        edit: 'Editar',
+        edited: 'Editado',
+        remove: 'Remover',
+        removed: 'Removido',
+        save: 'Salvar',
+        vehiclesCount: 'Número de veículos:',
+        properties: {
+            name: 'Nome'
+        },
+    };
+    
     fleets = { 
         title: 'Frotas',
         fleet: 'Frota',

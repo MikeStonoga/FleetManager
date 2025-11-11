@@ -1,0 +1,17 @@
+<section class="container">
+    <section class="fx-align-start"> 
+        <sdk-icon [configuration]="warningIcon" />
+        <h2 class="ml-half">{{ areaYouSureLabel }}</h2>
+    </section>
+
+    <section>
+        <p>
+            {{ message }}
+        </p>
+    </section>
+
+    <section class="fx-align-end">
+        <sdk-button [configuration]="yesButton" />
+        <sdk-button [configuration]="noButton" class="ml-1" />
+    </section>
+</section>

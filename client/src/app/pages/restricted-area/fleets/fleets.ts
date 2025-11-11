@@ -1,15 +1,18 @@
-import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, Injectable } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { FleetView } from '@commons/models/fleets.models';
+import { Component, Injectable } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { FleetView, RegisterFleetRequirement, UpdateFleetRequirement } from '@commons/models/fleets.models';
 import { environment } from 'app/environment';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FleetsService {
+
+
+  public currentSelected?: FleetView;
+  public readonly listRefreshRequested = new Subject<void>();
 
   constructor(
     private readonly httpClient: HttpClient,
@@ -20,26 +23,28 @@ export class FleetsService {
   public getAll(): Observable<FleetView[]> {
     return this.httpClient.get<FleetView[]>(`${environment.API_URL}/Fleet/GetAll`);
   }
+
+  
+  register(requirement: RegisterFleetRequirement) {
+    return this.httpClient.post<FleetView>(`${environment.API_URL}/Fleet/Register`, requirement);
+  }
+
+  public update(requirement: UpdateFleetRequirement) {
+    return this.httpClient.patch<FleetView>(`${environment.API_URL}/Fleet/Update`, requirement);
+  }
+
+  remove(id: string) {
+    return this.httpClient.delete(`${environment.API_URL}/Fleet/Remove?id=${id}`);
+  }
 }
 
 @Component({
   selector: 'app-fleets',
-  imports: [
-    CommonModule
-  ],
+  standalone: true,
+  imports: [RouterOutlet],
   templateUrl: './fleets.html',
   styleUrl: './fleets.scss',
 })
 export class Fleets {
-  private readonly service = inject(FleetsService);
-
-  public fleets = toSignal(
-    this.service.getAll(),
-    { initialValue: [] }
-  );
   
-  constructor() {
-    
-  }
-
 }

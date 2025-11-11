@@ -1,0 +1,29 @@
+<sdk-toolbar [configuration]="toolbarConfiguration" />
+<div class="fleets-container">
+
+  @for (fleet of fleets(); track fleet.id) {
+    <mat-card class="fleet-card fade-in">
+      <div class="fleet-header">
+        <sdk-icon [configuration]="fleetIcon"></sdk-icon>
+        <div class="fleet-info">
+          <h3>{{ fleet.code }} - {{ fleet.name }}</h3>
+          <p>{{ vehiclesCountLabel }} {{ fleet.vehicleCount }}</p>
+        </div>
+      </div>
+
+      <div class="fleet-footer">
+        <section class="fx-align-start">
+          <sdk-button [configuration]="removeButtonConfig(fleet)"></sdk-button>
+        </section>
+
+        <section class="fx-align-end">
+          <sdk-button [configuration]="editButtonConfig(fleet)"></sdk-button>
+          <sdk-button [configuration]="detailsButtonConfig(fleet)"></sdk-button>
+        </section>
+      </div>
+
+      <!-- Reflexo suave -->
+      <div class="reflection"></div>
+    </mat-card>
+  }
+</div>

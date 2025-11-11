@@ -1,4 +1,4 @@
-<sdk-toolbar [configuration]="toolbarConfiguration">
+<mat-toolbar [ngStyle]="{ backgroundColor: volvoDarkBlue }">
     <section class="fx-space-between w-100">
         <section class="fx-align-start">
             <sdk-button [configuration]="menuButtonConfiguration()" />
@@ -12,11 +12,11 @@
             <!-- <sdk-button [configuration]="logoutButtonConfiguration" /> -->
         </section>
     </section>
-</sdk-toolbar>
+</mat-toolbar>
 <mat-drawer-container class="example-container" autosize >
 
 
-    <mat-drawer #drawer class="example-sidenav" [ngStyle]="{ backgroundColor: toolbarConfiguration.backgroundColor }" mode="over" >
+    <mat-drawer #drawer class="example-sidenav" [ngStyle]="{ backgroundColor: volvoDarkBlue }" mode="over" >
         
         <nav>
             <ul>

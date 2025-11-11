@@ -1,0 +1,22 @@
+<section class="container">
+    <section class="fx-align-start"> 
+        <sdk-icon [configuration]="fleetIcon" />
+        <h2 class="ml-half">{{ fleet.code }} - {{ fleet.name }}</h2>
+    </section>
+
+    <form [formGroup]="form">
+
+        <mat-form-field appearance="fill" >
+            <mat-label>{{ nameLabel }}</mat-label>
+            <section class="fx-space-between">
+                <input matInput formControlName="name">
+                <sdk-icon [configuration]="fleetIcon" />
+            </section>
+        </mat-form-field>
+
+    </form>
+
+    <section class="fx-align-end">
+        <sdk-button [configuration]="saveButton" />
+    </section>
+</section>

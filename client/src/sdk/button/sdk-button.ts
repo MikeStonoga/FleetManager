@@ -1,14 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { ISdkIconConfiguration, SdkIcon } from "../icon/sdk-icon";
+import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Subject } from 'rxjs';
-import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
+import { ISdkIconConfiguration, SdkIcon } from "../icon/sdk-icon";
 
 export interface ISdkButtonConfiguration {
   label: string;
   icon: ISdkIconConfiguration;
-  onClick: ($event: MouseEvent) => void;
+  onClick: ($event?: MouseEvent) => void;
   isDisabled: () => boolean;
   isToHide: () => boolean;
 }
@@ -16,7 +16,7 @@ export interface ISdkButtonConfiguration {
 export interface ISdkButtonConfigurationRequirement {
   label: string;
   icon: ISdkIconConfiguration;
-  onClick: ($event: MouseEvent) => void;
+  onClick: ($event?: MouseEvent) => void;
   isDisabled?: () => boolean;
   isToHide?: () => boolean;
 }
@@ -25,7 +25,7 @@ export class SdkButtonConfiguration
 implements ISdkButtonConfiguration {
   public readonly label: string;
   public readonly icon: ISdkIconConfiguration;
-  public readonly onClick: ($event: MouseEvent) => void;
+  public readonly onClick: ($event?: MouseEvent) => void;
   public readonly isDisabled: () => boolean;
   public readonly isToHide: () => boolean;
   public readonly clicked = new Subject<MouseEvent>();

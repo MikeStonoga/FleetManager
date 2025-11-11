@@ -41,21 +41,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 .fx-align-start {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
 }
 
 .fx-align-end {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
 }
 
 .fx-align-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
 }
 
 .fx-space-between {
@@ -66,6 +66,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .ml-half {
   margin-left: 0.5rem !important;
+}
+
+.ml-1 {
+  margin-left: 1rem !important;
 }
 
 .w-100 {
@@ -79,7 +83,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /* Volvo Novum – fonte padrão */
 @font-face {
   font-family: 'Volvo Novum';
-  src: url('/VolvoNovum-Regular.woff') format('woff');
+  src: url('/Volvo Novum-Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;

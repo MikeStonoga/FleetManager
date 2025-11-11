@@ -2,20 +2,23 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltip } from "@angular/material/tooltip";
 import { Router } from '@angular/router';
+import { HomeIcon } from '@commons/icons/icons';
+import { VehicleTypeIcon } from '@commons/models/vehicle-types.models';
+import { VehicleIcon } from '@commons/models/vehicles.models';
 import { TranslationService } from '@commons/translations/translation.service';
-import { SdkButton, SdkButtonConfiguration } from "../../sdk/button/sdk-button";
-import { SdkIcon, SdkIconConfiguration } from '../../sdk/icon/sdk-icon';
-import { SdkToolbar } from '../../sdk/toolbar/sdk-toolbar';
-import { VolvoColors } from '../commons/colors';
+import { SdkButton, SdkButtonConfiguration } from "../../../../sdk/button/sdk-button";
+import { SdkIcon, SdkIconConfiguration } from '../../../../sdk/icon/sdk-icon';
+import { VolvoColors } from '../../../commons/colors';
 import { GoHomeButtonConfiguration } from './buttons/go-home.button-configuration';
 import { IMenu, Menus } from './menus';
 
 @Component({
   selector: 'main-toolbar',
   imports: [
-    SdkToolbar,
+    MatToolbarModule,
     MatSidenavModule,
     MatButtonModule,
     SdkButton,
@@ -26,11 +29,16 @@ import { IMenu, Menus } from './menus';
   templateUrl: './main-toolbar.html',
   styleUrl: './main-toolbar.scss',
   providers: [
-    GoHomeButtonConfiguration
+    GoHomeButtonConfiguration,
+    Menus,
+    HomeIcon,
+    VehicleIcon,
+    VehicleTypeIcon,
   ]
 })
 export class MainToolbar {
   private drawer = viewChild.required<MatDrawer>('drawer');
+  public readonly volvoDarkBlue = VolvoColors.DarkBlue;
 
   onMenuSelected(menu: IMenu) {
     this.router.navigateByUrl(menu.route);
@@ -49,9 +57,6 @@ export class MainToolbar {
     })
   );
 
-  public toolbarConfiguration = {
-    backgroundColor: VolvoColors.DarkBlue
-  };
   public get goToTooltip(): string {
     return this.translationService
       .translation

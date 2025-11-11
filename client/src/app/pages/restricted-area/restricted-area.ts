@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from "@angular/router";
-import { MainToolbar } from "app/main-toolbar/main-toolbar";
+import { MainToolbar } from "app/pages/restricted-area/main-toolbar/main-toolbar";
 
 @Component({
   selector: 'app-restricted-area',
