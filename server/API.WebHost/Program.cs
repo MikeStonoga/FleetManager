@@ -9,6 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
 builder.Services.ConfigureDatabase(builder.Configuration);
 builder.Services.RegisterServices();
+builder.Services.RegisterCors();
 
 var app = builder.Build();
 
@@ -23,6 +24,7 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = string.Empty; // Swagger na raiz (http://localhost:5000/)
 });
 
+app.AddCors();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
