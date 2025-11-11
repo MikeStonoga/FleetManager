@@ -6,4 +6,7 @@ public interface IDataGateway<TIEntity>
     where TIEntity : IEntity
 {
     Task<TIEntity?> GetById(Guid id);
+
+    Task<TIEntity> Register(TIEntity entity);
+    Task Remove(TIEntity entity);
 }

@@ -1,0 +1,32 @@
+﻿using BusinessModels.Abstractions.Vehicles;
+using BusinessModels.Abstractions.Vehicles.Types;
+using BusinessModels.Abstractions.Vehicles.Types.Commands;
+using BusinessModels.Commons.Entities;
+using BusinessModels.Commons.ValueObjects;
+
+namespace BusinessModels.Vehicles.Types;
+
+public sealed class VehicleType
+    : Entity
+    , IVehicleType
+{
+    #region Properties
+    public string Name { get; }
+    public int NumberOfPassengers { get; }
+    #endregion
+
+    #region Navigation Properties
+    public IEnumerable<IVehicle> Vehicles { get; }
+    #endregion
+
+    #region Constructors
+    private VehicleType() { }
+
+    public VehicleType(IRegisterVehicleTypeRequirement requirement)
+        : base(id: Guid.CreateVersion7())
+    {
+        Name = new RequiredString(requirement.Name, nameof(Name));
+        NumberOfPassengers = (int)new NaturalNumber(requirement.NumberOfPassengers, nameof(NumberOfPassengers));
+    }
+    #endregion
+}

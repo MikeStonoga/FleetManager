@@ -1,12 +1,12 @@
 ﻿using BusinessModels.Abstractions.Commons.Entities;
-using BusinessModels.Abstractions.Vehicles;
 
-namespace BusinessModels.Abstractions.Fleets;
+namespace BusinessModels.Abstractions.Vehicles.Types;
 
-public interface IFleet
+public interface IVehicleType
     : IEntity
 {
     string Name { get; }
+    int NumberOfPassengers { get; }
 
     IEnumerable<IVehicle> Vehicles { get; }
 }

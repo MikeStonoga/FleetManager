@@ -3,14 +3,10 @@ using API.WebHost.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Host.ConfigureLogger(builder.Configuration);
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+builder.Services.ConfigureSwagger();
 builder.Services.ConfigureDatabase(builder.Configuration);
 builder.Services.RegisterServices();
 
@@ -20,12 +16,12 @@ app.UseMiddleware<ErrorsHandlerMiddleware>();
 
 await app.ApplyMigrationsAsync();
 
-// Configure the HTTP request pipeline.
-// if (app.Environment.IsDevelopment())
-//{
 app.UseSwagger();
-app.UseSwaggerUI();
-//}
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "FleetManager API v1");
+    c.RoutePrefix = string.Empty; // Swagger na raiz (http://localhost:5000/)
+});
 
 app.UseHttpsRedirection();
 

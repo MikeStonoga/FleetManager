@@ -3,7 +3,7 @@
 namespace BusinessModels.Abstractions.Fleets.Commands;
 
 public interface IRegisterFleetRequirement
-    : IRegisterEntityCommandRequirement
+    : IRegisterEntityCommandRequirement<IFleet>
 {
     string Name { get; }
 }

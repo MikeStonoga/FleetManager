@@ -1,5 +1,6 @@
 ﻿using BusinessModels.Abstractions.Fleets;
 using BusinessModels.Abstractions.Fleets.Commands;
+using BusinessModels.Abstractions.Vehicles;
 using BusinessModels.Commons.Entities;
 using BusinessModels.Commons.ValueObjects;
 
@@ -10,6 +11,8 @@ public sealed class Fleet
     , IFleet
 {
     public string Name { get; private set; }
+
+    public IEnumerable<IVehicle> Vehicles { get; }
 
 #pragma warning disable CS8618 // O campo não anulável precisa conter um valor não nulo ao sair do construtor. Considere adicionar o modificador "obrigatório" ou declarar como anulável.
     private Fleet() { }

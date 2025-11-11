@@ -11,6 +11,8 @@ public abstract class Repository<TIEntity, TEntity>
     where TEntity : Entity, TIEntity
 {
     protected readonly AppDbContext AppDbContext;
+    protected DbSet<TEntity> DbSet
+        => AppDbContext.Set<TEntity>();
 
     protected Repository(
         AppDbContext appDbContext
@@ -23,8 +25,29 @@ public abstract class Repository<TIEntity, TEntity>
     {
         var result = await AppDbContext
             .Set<TEntity>()
-            .FirstOrDefaultAsync(e => e.Id == id);
+            .FirstOrDefaultAsync(e => !e.IsDeleted && e.Id == id);
 
         return result;
     }
+
+    public async Task<TIEntity> Register(TIEntity entity)
+    {
+        if (entity.CreatorId == Guid.Empty || entity.CreationTime == DateTime.MinValue)
+            throw new InvalidOperationException("Must register business model creation on application layer before call Repository!");
+
+        await AppDbContext.AddAsync(entity);
+        await AppDbContext.SaveChangesAsync();
+        return entity;
+    }
+
+    public async Task Remove(TIEntity entity)
+    {
+        if (!entity.IsDeleted)
+            throw new InvalidOperationException("Must update the business model as deleted on application layer before call Repository!");
+
+        DbSet.Update((TEntity)entity); // SOFT DELETE
+
+        await AppDbContext.SaveChangesAsync();
+    }
+
 }
