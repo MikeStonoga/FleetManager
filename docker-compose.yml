@@ -45,7 +45,6 @@ services:
       - "5432:5432"
     networks:
       - fleetnet
-    # Não rebuilda nunca, é imagem oficial
 
   # =============== PGADMIN (Database UI) ===============
   pgadmin:
@@ -59,12 +58,11 @@ services:
     volumes:
       - pgadmin_data:/var/lib/pgadmin
       - ./pgadmin/servers.json:/pgadmin4/servers.json
+      - ./pgadmin/pgpass:/pgpass
     depends_on:
       - db
     networks:
       - fleetnet
-
-    # Também imagem oficial, sem rebuild
 
 networks:
   fleetnet:
@@ -72,4 +70,3 @@ networks:
 volumes:
   pgdata:
   pgadmin_data:
-
