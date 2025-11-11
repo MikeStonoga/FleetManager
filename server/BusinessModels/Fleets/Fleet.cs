@@ -10,10 +10,15 @@ public sealed class Fleet
     : Entity
     , IFleet
 {
+    #region Properties
     public string Name { get; private set; }
+    #endregion
 
+    #region Navigation Properties
     public IEnumerable<IVehicle> Vehicles { get; }
+    #endregion
 
+    #region Constructors
 #pragma warning disable CS8618 // O campo não anulável precisa conter um valor não nulo ao sair do construtor. Considere adicionar o modificador "obrigatório" ou declarar como anulável.
     private Fleet() { }
 #pragma warning restore CS8618 // O campo não anulável precisa conter um valor não nulo ao sair do construtor. Considere adicionar o modificador "obrigatório" ou declarar como anulável.
@@ -23,4 +28,17 @@ public sealed class Fleet
     {
         Name = new RequiredString(requirement.Name, nameof(Id));
     }
+    #endregion
+
+    #region Methods
+    protected override void UpdateEntity<TRequirement>(TRequirement requirement)
+    {
+        var updateRequirement = requirement as IUpdateFleetRequirement;
+
+        var newName = new RequiredString(updateRequirement!.Name, nameof(Name));
+        var isUpdatingName = Name != newName;
+        if (isUpdatingName)
+            Name = newName;
+    }
+    #endregion
 }

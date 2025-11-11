@@ -11,8 +11,8 @@ public sealed class VehicleType
     , IVehicleType
 {
     #region Properties
-    public string Name { get; }
-    public int NumberOfPassengers { get; }
+    public string Name { get; private set; }
+    public int NumberOfPassengers { get; private set; }
     #endregion
 
     #region Navigation Properties
@@ -27,6 +27,18 @@ public sealed class VehicleType
     {
         Name = new RequiredString(requirement.Name, nameof(Name));
         NumberOfPassengers = (int)new NaturalNumber(requirement.NumberOfPassengers, nameof(NumberOfPassengers));
+    }
+    #endregion
+
+    #region Methods
+    protected override void UpdateEntity<TRequirement>(TRequirement requirement)
+    {
+        var updateRequirement = requirement as IUpdateVehicleTypeRequirement;
+
+        var newName = new RequiredString(updateRequirement!.Name, nameof(Name));
+        var isUpdatingName = Name != newName;
+        if (isUpdatingName)
+            Name = newName;
     }
     #endregion
 }

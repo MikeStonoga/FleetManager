@@ -3,9 +3,9 @@
 namespace BusinessModels.Abstractions.Commons.Commands;
 
 public interface IRegisterEntityCommandRequirement<TIEntity>
+    : ICommandRequirement
     where TIEntity : IEntity
 {
-    Guid CommanderId { get; }
     public abstract TIEntity ToEntity();
 
 }

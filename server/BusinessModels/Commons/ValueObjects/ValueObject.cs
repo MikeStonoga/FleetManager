@@ -18,4 +18,17 @@ public abstract record ValueObject<TValue>
 
     protected static bool NotEqualOperator(ValueObject<TValue> left, ValueObject<TValue> right)
         => !Equals(left, right);
+
+    public static bool operator ==(ValueObject<TValue> left, TValue right)
+    => left is not null && Equals(left.Value, right);
+
+    public static bool operator !=(ValueObject<TValue> left, TValue right)
+        => !(left == right);
+
+    public static bool operator ==(TValue left, ValueObject<TValue> right)
+        => right == left;
+
+    public static bool operator !=(TValue left, ValueObject<TValue> right)
+        => !(left == right);
+
 }

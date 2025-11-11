@@ -7,11 +7,9 @@ public abstract class RegisterEntityCommandDTO<TIEntity>
     where TIEntity : IEntity
 {
     public abstract class Requirement
-        : IRegisterEntityCommandRequirement<TIEntity>
+        : CommandRequirement
+        , IRegisterEntityCommandRequirement<TIEntity>
     {
-        public Guid CommanderId { get; private set; }
-        public void SetCommanderId(Guid commanderId)
-            => CommanderId = commanderId;
         public abstract TIEntity ToEntity();
     }
 

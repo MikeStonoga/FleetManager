@@ -10,7 +10,7 @@ public static class DatabaseSettings
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         if (string.IsNullOrWhiteSpace(connectionString))
-            throw new InvalidOperationException("Database connection string 'DefaultConnection' was not found.");
+            throw new InvalidOperationException("PROGRAMMING ERROR: Database connection string 'DefaultConnection' was not found.");
 
         services.AddDbContext<AppDbContext>(options =>
         {

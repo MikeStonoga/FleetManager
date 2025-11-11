@@ -41,5 +41,18 @@ public sealed class Vehicle
 
         Color = new RequiredString(requirement.Color, nameof(Color));
     }
+
+    #endregion
+
+    #region Methods
+    protected override void UpdateEntity<TRequirement>(TRequirement requirement)
+    {
+        var updateRequirement = requirement as IUpdateVehicleRequirement;
+
+        string newColor = new RequiredString(updateRequirement!.Color, nameof(Color));
+        var isUpdatingColor = Color != newColor;
+        if (isUpdatingColor)
+            Color = newColor;
+    }
     #endregion
 }

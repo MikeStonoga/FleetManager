@@ -1,4 +1,5 @@
-﻿using BusinessModels.Abstractions.Commons.Entities;
+﻿using BusinessModels.Abstractions.Commons.Commands;
+using BusinessModels.Abstractions.Commons.Entities;
 using BusinessModels.Commons.ValueObjects;
 
 namespace BusinessModels.Commons.Entities;
@@ -32,6 +33,21 @@ public abstract class Entity
     #endregion
 
     #region Methods
+
+    public void Update<TRequirement>(TRequirement requirement)
+        where TRequirement : IUpdateEntityCommandRequirement
+    {
+        if (requirement.Id != Id)
+            throw new InvalidOperationException($"PROGRAMMING ERROR: Trying to update wrong entity! Id provided: {requirement.Id} - Id of trying to update: {Id}");
+
+        RegisterModification(requirement.CommanderId);
+
+        UpdateEntity(requirement);
+    }
+
+    protected abstract void UpdateEntity<TRequirement>(TRequirement requirement)
+        where TRequirement : IUpdateEntityCommandRequirement;
+
     public void RegisterCreation(Guid creatorId)
     {
         CreatorId = new RequiredGuid(creatorId, nameof(CreatorId));
@@ -43,13 +59,13 @@ public abstract class Entity
     {
         DeleterId = new RequiredGuid(deleterId, nameof(DeleterId));
         DeletionTime = DateTime.UtcNow;
+        IsDeleted = true;
     }
 
     public void RegisterModification(Guid modifierId)
     {
         LastModifierId = new RequiredGuid(modifierId, nameof(LastModifierId));
         LastModificationTime = DateTime.UtcNow;
-        IsDeleted = true;
     }
     #endregion
 }

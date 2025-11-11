@@ -1,4 +1,6 @@
-﻿namespace BusinessModels.Abstractions.Commons.Entities;
+﻿using BusinessModels.Abstractions.Commons.Commands;
+
+namespace BusinessModels.Abstractions.Commons.Entities;
 
 public interface IEntity
 {
@@ -18,6 +20,8 @@ public interface IEntity
     #endregion
 
     #region
+    void Update<TRequirement>(TRequirement requirement)
+        where TRequirement : IUpdateEntityCommandRequirement;
     void RegisterCreation(Guid creatorId);
     void RegisterModification(Guid modifierId);
     void RegisterDeletion(Guid deleterId);
