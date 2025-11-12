@@ -1,8 +1,10 @@
 ﻿using Adapters.Data.Persistency.Commons;
+using BusinessModels.Abstractions.Commons.DTOs;
 using BusinessModels.Abstractions.Commons.Entities;
 using BusinessModels.Abstractions.Commons.Views;
 using BusinessModels.Commons;
 using BusinessModels.Commons.Entities;
+using BusinessModels.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -136,4 +138,17 @@ public abstract class Repository<
 
         return result;
     }
+
+    public async Task<IEnumerable<IIdCodeAndLabelDTO>> GetIdsCodesAndLabels()
+    {
+        var result = await AppDbContext
+            .Set<TEntityView>()
+            .Select(GetIdCodeAndLabelExpression)
+            .ToListAsync();
+        return result;
+
+    }
+
+    protected abstract Expression<Func<TEntityView, IdCodeAndLabelDTO>> GetIdCodeAndLabelExpression { get; }
+
 }

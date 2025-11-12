@@ -62,6 +62,16 @@ public abstract class Controller<
 
     [HttpGet]
     [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.UnprocessableEntity)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<IActionResult> GetIdsCodesAndLabels()
+    {
+        var result = await UseCases.GetIdsCodesAndLabels();
+        return Ok(result);
+    }
+
+    [HttpGet]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.UnprocessableEntity)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]

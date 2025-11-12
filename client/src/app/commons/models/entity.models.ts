@@ -6,3 +6,9 @@ export interface EntityView {
     lastModifierId?: string;
     lastModificationTime?: Date;
 }
+
+export interface IdCodeAndLabelDTO {
+    id: string;
+    code: number;
+    label: string;
+}

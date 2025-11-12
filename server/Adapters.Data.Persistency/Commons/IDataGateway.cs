@@ -1,4 +1,5 @@
-﻿using BusinessModels.Abstractions.Commons.Entities;
+﻿using BusinessModels.Abstractions.Commons.DTOs;
+using BusinessModels.Abstractions.Commons.Entities;
 using BusinessModels.Abstractions.Commons.Views;
 using System.Linq.Expressions;
 
@@ -19,5 +20,7 @@ public interface IDataGateway<TIEntity, TIEntityView>
     Task<TIEntity> Register(TIEntity entity);
     Task Remove(TIEntity entity);
     Task<TIEntity> Update(TIEntity entity);
+
+    Task<IEnumerable<IIdCodeAndLabelDTO>> GetIdsCodesAndLabels();
 
 }

@@ -1,1 +1,33 @@
-<p>vehicle-register-template works!</p>
+
+<form [formGroup]="form">
+
+    
+    <mat-form-field appearance="fill" >
+        <mat-label>{{ chassisSeriesLabel }}</mat-label>
+        <section class="fx-space-between">
+            <input matInput formControlName="chassisSeries">
+            <sdk-icon [configuration]="entityIcon" />
+        </section>
+    </mat-form-field>
+
+    
+    <mat-form-field appearance="fill" class="ml-half">
+        <mat-label>{{ chassisNumberLabel }}</mat-label>
+        <section class="fx-space-between">
+            <input matInput formControlName="chassisNumber" type="number" [min]="0">
+            <sdk-icon [configuration]="entityIcon" />
+        </section>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" >
+        <mat-label>{{ colorLabel }}</mat-label>
+        <section class="fx-space-between">
+            <input matInput formControlName="color">
+            <sdk-icon [configuration]="entityIcon" />
+        </section>
+    </mat-form-field>
+    
+    <app-entity-selector [configuration]="fleetConfiguration" controlName="fleetId" class="ml-half" />
+    <app-entity-selector [configuration]="vehicleTypeConfiguration" controlName="typeId" class="ml-half" />
+
+</form>

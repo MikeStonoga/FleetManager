@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { EntityView } from '@commons/models/entity.models';
+import { EntityView, IdCodeAndLabelDTO } from '@commons/models/entity.models';
 import { environment } from 'app/environment';
 import { Observable, Subject } from 'rxjs';
 
@@ -17,6 +17,10 @@ export abstract class EntitiesService<
     protected readonly controllerName: string,
     protected readonly httpClient: HttpClient
   ) {}
+
+  public getIdsCodesAndLabels(): Observable<IdCodeAndLabelDTO[]> {
+    return this.httpClient.get<IdCodeAndLabelDTO[]>(`${this.baseAddress}/GetIdsCodesAndLabels`);
+  }
 
   getAll(): Observable<TEntityView[]> {
     return this.httpClient.get<TEntityView[]>(`${this.baseAddress}/GetAll`);

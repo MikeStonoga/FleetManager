@@ -1,0 +1,12 @@
+@if (form) {
+  <ng-container [formGroup]="form">
+    <mat-form-field appearance="fill">
+      <mat-label>{{ entityLabel }}</mat-label>
+      <mat-select [formControlName]="controlName()">
+        @for (option of options(); track option.value) {
+          <mat-option [value]="option.value">{{ option.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
+}

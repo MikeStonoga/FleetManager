@@ -1,6 +1,7 @@
 ﻿using Adapters.Data.Persistency.Commons;
 using Application.Abstractions.Commons;
 using BusinessModels.Abstractions.Commons.Commands;
+using BusinessModels.Abstractions.Commons.DTOs;
 using BusinessModels.Abstractions.Commons.Entities;
 using BusinessModels.Abstractions.Commons.Views;
 using BusinessModels.Commons.Entities;
@@ -52,6 +53,9 @@ public class UseCases<
         id = new RequiredGuid(id, nameof(id));
         return await DataGateway.GetById(id);
     }
+
+    public async Task<IEnumerable<IIdCodeAndLabelDTO>> GetIdsCodesAndLabels()
+        => await DataGateway.GetIdsCodesAndLabels();
 
     public async Task<TIEntityView?> GetView(Expression<Func<TIEntityView, bool>> predicate)
         => await DataGateway.GetView(predicate);
