@@ -125,7 +125,9 @@ public abstract class Repository<
         if (predicate != null)
             query = query.Where(predicate);
 
-        var result = await query.ToListAsync();
+        var result = await query
+            .OrderByDescending(e => e.LastModificationTime ?? e.CreationTime)
+            .ToListAsync();
         return result;
     }
 
