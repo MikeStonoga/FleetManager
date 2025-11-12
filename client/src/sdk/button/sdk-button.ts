@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { VolvoColors } from '@commons/colors';
 import { Subject } from 'rxjs';
 import { ISdkIconConfiguration, SdkIcon } from "../icon/sdk-icon";
 
@@ -30,6 +31,8 @@ implements ISdkButtonConfiguration {
   public readonly isToHide: () => boolean;
   public readonly clicked = new Subject<MouseEvent>();
 
+  public readonly volvoGreyOne = VolvoColors.GreyOne;
+
   constructor(requirement: ISdkButtonConfigurationRequirement) {
     this.label = requirement.label;
     this.icon = requirement.icon;
@@ -52,7 +55,24 @@ implements ISdkButtonConfiguration {
 })
 export class SdkButton {
 
-  public configuration = input.required<ISdkButtonConfiguration>(); 
+  public configuration = input.required<ISdkButtonConfiguration>();
+    
+  public readonly volvoGreyOne = VolvoColors.GreyOne;
+
+  public get iconConfig() {
+    const cfg = this.configuration();
+    const color = cfg.isDisabled()
+      ? this.volvoGreyOne
+      : cfg.icon.color;
+
+    // Retorna um novo objeto compatível com ISdkIconConfiguration
+    return {
+      name: cfg.icon.name,
+      color,
+      changeColor: cfg.icon.changeColor.bind(cfg.icon),
+    };
+  }
+
   
   public onClick($event: MouseEvent) {
     const configuration = this.configuration();

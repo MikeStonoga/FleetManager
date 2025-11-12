@@ -6,6 +6,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltip } from "@angular/material/tooltip";
 import { Router } from '@angular/router';
 import { HomeIcon } from '@commons/icons/icons';
+import { FleetIcon } from '@commons/models/fleets.models';
 import { VehicleTypeIcon } from '@commons/models/vehicle-types.models';
 import { VehicleIcon } from '@commons/models/vehicles.models';
 import { TranslationService } from '@commons/translations/translation.service';
@@ -32,6 +33,7 @@ import { IMenu, Menus } from './menus';
     GoHomeButtonConfiguration,
     Menus,
     HomeIcon,
+    FleetIcon,
     VehicleIcon,
     VehicleTypeIcon,
   ]
