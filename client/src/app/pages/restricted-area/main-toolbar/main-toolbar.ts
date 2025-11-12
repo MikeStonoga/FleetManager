@@ -9,6 +9,7 @@ import { HomeIcon } from '@commons/icons/icons';
 import { FleetIcon } from '@commons/models/fleets.models';
 import { VehicleTypeIcon } from '@commons/models/vehicle-types.models';
 import { VehicleIcon } from '@commons/models/vehicles.models';
+import { LanguageSelector } from "@commons/translations/language-selector/language-selector";
 import { TranslationService } from '@commons/translations/translation.service';
 import { SdkButton, SdkButtonConfiguration } from "../../../../sdk/button/sdk-button";
 import { SdkIcon, SdkIconConfiguration } from '../../../../sdk/icon/sdk-icon';
@@ -26,7 +27,8 @@ import { IMenu, Menus } from './menus';
     SdkButton,
     CommonModule,
     SdkIcon,
-    MatTooltip
+    MatTooltip,
+    LanguageSelector
 ],
   templateUrl: './main-toolbar.html',
   styleUrl: './main-toolbar.scss',

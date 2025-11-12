@@ -7,6 +7,7 @@ export interface AppTranslation {
     };
 
     commons: {
+        selectLanguage: string;
         filter: string;
         yes: string;
         no: string;

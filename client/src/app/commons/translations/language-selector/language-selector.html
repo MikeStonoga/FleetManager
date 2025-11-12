@@ -1,0 +1,21 @@
+<div class="language-dropdown" [matMenuTriggerFor]="menu">
+  <img
+    class="flag-icon"
+    [src]="getFlagPath(service.currentLanguage)"
+    alt="{{ service.currentLanguage }}"
+  />
+  <sdk-icon [configuration]="expandIcon" />
+</div>
+
+<mat-menu #menu="matMenu" class="language-menu">
+  @for (language of service.availableLanguages; track language.code) {
+    <button mat-menu-item (click)="onLanguageSelected(language.code)" class="mt-half">
+      <img
+        class="flag-icon"
+        [src]="getFlagPath(language.code)"
+        [alt]="language.name"
+      />
+      <span>{{ language.name }}</span>
+    </button>
+  }
+</mat-menu>
