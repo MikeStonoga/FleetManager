@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
+import { EntityDetails } from "@commons/components/entities/details/entity-details";
 import { EntitiesList } from "@commons/components/entities/list/entities-list";
-import { FleetDetails } from "./details/fleet-details";
 
 export const FLEETS_ROUTES: Routes = [
     {
@@ -14,7 +14,7 @@ export const FLEETS_ROUTES: Routes = [
     },
     {
         path: 'details/:id',
-        component: FleetDetails,
+        component: EntityDetails,
         loadChildren: () => import('./details/fleet-details.routes')
             .then(file => file.FLEET_DETAILS_ROUTES),
     }

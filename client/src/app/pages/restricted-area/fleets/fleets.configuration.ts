@@ -22,6 +22,7 @@ extends EntityConfiguration {
             icon: inject(FleetIcon),
             namePlural: translationService.translation.fleets.title,
             nameSingular: translationService.translation.fleets.fleet,
+            entityRoute: 'fleets',
             list: {
                 cards: {
                     contentTemplate: FleetCardTemplate, 
@@ -56,7 +57,10 @@ extends EntityConfiguration {
                         };
                     }
                 }
-            }
+            },
+            details: {
+                toolbarComplement: (entity: FleetView) => `${entity.code} - ${entity.name}`,
+            },
         })
     }
 }

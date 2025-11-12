@@ -22,6 +22,7 @@ extends EntityConfiguration {
             icon: inject(VehicleIcon),
             namePlural: translationService.translation.vehicles.title,
             nameSingular: translationService.translation.vehicles.vehicle,
+            entityRoute: 'vehicles',
             list: {
                 cards: {
                     contentTemplate: VehicleCardTemplate,
@@ -63,8 +64,11 @@ extends EntityConfiguration {
                             color: formValue.color!,
                         };
                     }
-                }
-            }
+                },
+            },
+            details: {
+                toolbarComplement: (entity: VehicleView) => `${entity.code} - ${entity.chassisId}`,
+            },
         })
     }
 }

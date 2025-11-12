@@ -38,6 +38,8 @@ export interface IEntityListCardTemplate {
 }
 
 export interface IEntityConfiguration {
+    entityRoute: string;
+    details: IEntityDetailsConfiguration;
     service: EntitiesService<EntityView>;
     icon: ISdkIconConfiguration;
     namePlural: string;
@@ -46,13 +48,19 @@ export interface IEntityConfiguration {
     forms: IEntityFormsConfiguration
 }
 
+export interface IEntityDetailsConfiguration{
+    toolbarComplement: (entity: any) => string;
+};
+
 export interface IEntityConfigurationRequirement {
     service: EntitiesService<EntityView>;
     icon: ISdkIconConfiguration;
     namePlural: string;
     nameSingular: string;
+    entityRoute: string;
     forms: IEntityFormsConfiguration;
     list: IEntityListsConfiguration;
+    details: IEntityDetailsConfiguration;
 }
 
 export abstract class EntityConfiguration 
@@ -62,8 +70,10 @@ implements IEntityConfiguration {
     public readonly icon: ISdkIconConfiguration;
     public readonly namePlural: string;
     public readonly nameSingular: string;
+    public readonly entityRoute: string;
     public readonly forms: IEntityFormsConfiguration;
     public readonly list: IEntityListsConfiguration;
+    public readonly details: IEntityDetailsConfiguration;
 
     constructor(requirement: IEntityConfigurationRequirement) {
         this.service = requirement.service;
@@ -72,5 +82,7 @@ implements IEntityConfiguration {
         this.nameSingular = requirement.nameSingular;
         this.forms = requirement.forms;
         this.list = requirement.list;
+        this.details = requirement.details;
+        this.entityRoute = requirement.entityRoute;
     }
 }

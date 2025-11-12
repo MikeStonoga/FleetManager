@@ -167,7 +167,7 @@ export class EntitiesList implements OnDestroy {
       icon: new SdkIconConfiguration({ name: 'open_in_new', color: VolvoColors.Black }),
       onClick: () => {
         this.service.currentSelected = entity;
-        this.router.navigate([`/restricted-area/entities/details/${entity.id}`])
+        this.router.navigate([`/restricted-area/${this.configuration.entityRoute}/details/${entity.id}`])
       },
     });
   }
