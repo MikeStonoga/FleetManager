@@ -1,0 +1,28 @@
+<sdk-toolbar [configuration]="toolbarConfiguration" />
+<div class="entities-container">
+
+  @for (entity of entities(); track entity.id) {
+    <mat-card class="entity-card fade-in">
+      <div class="entity-header">
+        <sdk-icon [configuration]="entityIcon"></sdk-icon>
+        <div class="entity-info">
+          <ng-container #EntityContentTemplate />
+        </div>
+      </div>
+
+      <div class="entity-footer">
+        <section class="fx-align-start">
+          <sdk-button [configuration]="removeButtonConfig(entity)"></sdk-button>
+        </section>
+
+        <section class="fx-align-end">
+          <sdk-button [configuration]="editButtonConfig(entity)"></sdk-button>
+          <sdk-button [configuration]="detailsButtonConfig(entity)"></sdk-button>
+        </section>
+      </div>
+
+      <!-- Reflexo suave -->
+      <div class="reflection"></div>
+    </mat-card>
+  }
+</div>

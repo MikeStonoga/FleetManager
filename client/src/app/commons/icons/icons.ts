@@ -13,7 +13,7 @@ export const ICONS = {
     Warning: 'warning',
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class HomeIcon 
 extends SdkIconConfiguration {
 
@@ -24,7 +24,7 @@ extends SdkIconConfiguration {
     }
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class SaveIcon 
 extends SdkIconConfiguration {
     constructor() {
@@ -34,7 +34,7 @@ extends SdkIconConfiguration {
     }
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class RefreshIcon 
 extends SdkIconConfiguration {
     constructor() {
@@ -44,7 +44,7 @@ extends SdkIconConfiguration {
     }
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AddIcon 
 extends SdkIconConfiguration {
     constructor() {
@@ -55,7 +55,7 @@ extends SdkIconConfiguration {
 }
 
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class WarningIcon 
 extends SdkIconConfiguration {
     constructor() {

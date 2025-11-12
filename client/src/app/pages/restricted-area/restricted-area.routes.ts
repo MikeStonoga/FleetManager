@@ -1,8 +1,10 @@
 import { Routes } from "@angular/router";
-import { Fleets } from "./fleets/fleets";
+import { Entities } from "@commons/components/entities/entities";
+import { ENTITY_CONFIGURATION } from "@commons/components/entities/entities.configuration";
+import { FleetsConfiguration } from "./fleets/fleets.configuration";
 import { Home } from "./home/home";
 import { VehiclesTypes } from "./vehicles-types/vehicles-types";
-import { Vehicles } from "./vehicles/vehicles";
+import { VehiclesConfiguration } from "./vehicles/vehicles.configuration";
 
 export const RESTRICTED_AREA_ROUTES: Routes = [
     {
@@ -16,15 +18,27 @@ export const RESTRICTED_AREA_ROUTES: Routes = [
     },
     {
         path: 'fleets',
-        component: Fleets,
+        component: Entities,
         loadChildren: () => import('./fleets/fleets.routes')
             .then(file => file.FLEETS_ROUTES),
+        providers: [
+            {
+                provide: ENTITY_CONFIGURATION,
+                useClass: FleetsConfiguration
+            }
+        ]
     },
     {
         path: 'vehicles',
-        component: Vehicles,
+        component: Entities,
         loadChildren: () => import('./vehicles/vehicles.routes')
             .then(file => file.VEHICLES_ROUTES),
+        providers: [
+            {
+                provide: ENTITY_CONFIGURATION,
+                useClass: VehiclesConfiguration
+            }
+        ]
     },
     {
         path: 'vehicles-types',

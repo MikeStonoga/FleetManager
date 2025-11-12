@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
+import { EntitiesList } from "@commons/components/entities/list/entities-list";
 import { FleetDetails } from "./details/fleet-details";
-import { FleetsList } from "./list/fleets-list";
 
 export const FLEETS_ROUTES: Routes = [
     {
@@ -10,7 +10,7 @@ export const FLEETS_ROUTES: Routes = [
     },
     {
         path: 'list',
-        component: FleetsList,
+        component: EntitiesList,
     },
     {
         path: 'details/:id',

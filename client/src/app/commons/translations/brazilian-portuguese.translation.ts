@@ -34,6 +34,12 @@ implements AppTranslation {
     vehicles = { 
         title: 'Veículos', 
         vehicle: 'Veículo', 
+        chassisSeries: 'Série do Chassi',
+        chassisNumber: 'Nº do Chassi',
+        fleet: 'Frota',
+        type: 'Tipo',
+        numberOfPassengers: 'Nº de Passageiros',
+        color: 'Cor',
     };
 
     vehicleTypes = { 

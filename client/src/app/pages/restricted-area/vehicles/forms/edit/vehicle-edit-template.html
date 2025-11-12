@@ -1,0 +1,12 @@
+
+<form [formGroup]="form">
+
+    <mat-form-field appearance="fill" >
+        <mat-label>{{ colorLabel }}</mat-label>
+        <section class="fx-space-between">
+            <input matInput formControlName="color">
+            <sdk-icon [configuration]="entityIcon" />
+        </section>
+    </mat-form-field>
+
+</form>

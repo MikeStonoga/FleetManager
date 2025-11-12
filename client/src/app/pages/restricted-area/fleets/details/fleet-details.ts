@@ -6,7 +6,7 @@ import { TranslationService } from '@commons/translations/translation.service';
 import { SdkButtonConfiguration } from "@sdk/button/sdk-button";
 import { SdkIconConfiguration } from "@sdk/icon/sdk-icon";
 import { ISdkToolbarConfiguration, SdkToolbar } from "@sdk/toolbar/sdk-toolbar";
-import { FleetsService } from '../fleets';
+import { FleetsService } from '../fleets.service';
 
 @Injectable()
 export class GoBackToFleetListButton

@@ -27,6 +27,12 @@ export interface AppTranslation {
     vehicles: {
         title: string;
         vehicle: string;
+        chassisSeries: string;
+        chassisNumber: string;
+        fleet: string;
+        type: string;
+        numberOfPassengers: string;
+        color: string;
     };
     
     vehicleTypes: {

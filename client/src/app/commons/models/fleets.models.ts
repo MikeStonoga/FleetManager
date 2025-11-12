@@ -19,9 +19,7 @@ export interface UpdateFleetRequirement {
     name: string;
 }
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class FleetIcon 
 extends SdkIconConfiguration {
     constructor() {

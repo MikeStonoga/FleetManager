@@ -1,0 +1,12 @@
+<section class="container">
+    <section class="fx-align-start"> 
+        <sdk-icon [configuration]="entityIcon" />
+        <h2 class="ml-half"> {{ entityLabelSingular }} {{ entity.code }} </h2>
+    </section>
+
+    <section #dynamicFormContainer></section>
+
+    <section class="fx-align-end">
+        <sdk-button [configuration]="saveButton" />
+    </section>
+</section>
