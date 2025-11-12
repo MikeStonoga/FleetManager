@@ -3,7 +3,7 @@ import { Entities } from "@commons/components/entities/entities";
 import { ENTITY_CONFIGURATION } from "@commons/components/entities/entities.configuration";
 import { FleetsConfiguration } from "./fleets/fleets.configuration";
 import { Home } from "./home/home";
-import { VehiclesTypes } from "./vehicles-types/vehicles-types";
+import { VehiclesTypesConfiguration } from "./vehicles-types/vehicles-types.configuration";
 import { VehiclesConfiguration } from "./vehicles/vehicles.configuration";
 
 export const RESTRICTED_AREA_ROUTES: Routes = [
@@ -42,9 +42,15 @@ export const RESTRICTED_AREA_ROUTES: Routes = [
     },
     {
         path: 'vehicles-types',
-        component: VehiclesTypes,
+        component: Entities,
         loadChildren: () => import('./vehicles-types/vehicles-types.routes')
             .then(file => file.VEHICLES_TYPES_ROUTES),
+        providers: [
+            {
+                provide: ENTITY_CONFIGURATION,
+                useClass: VehiclesTypesConfiguration
+            }
+        ]
     },
 ]
     

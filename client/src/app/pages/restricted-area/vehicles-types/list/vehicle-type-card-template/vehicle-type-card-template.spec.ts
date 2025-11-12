@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VehiclesTypes } from './vehicles-types';
+import { VehicleTypeCardTemplate } from './vehicle-type-card-template';
 
-describe('VehiclesTypes', () => {
-  let component: VehiclesTypes;
-  let fixture: ComponentFixture<VehiclesTypes>;
+describe('VehicleTypeCardTemplate', () => {
+  let component: VehicleTypeCardTemplate;
+  let fixture: ComponentFixture<VehicleTypeCardTemplate>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VehiclesTypes]
+      imports: [VehicleTypeCardTemplate]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(VehiclesTypes);
+    fixture = TestBed.createComponent(VehicleTypeCardTemplate);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

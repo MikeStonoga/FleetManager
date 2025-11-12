@@ -6,5 +6,5 @@ public interface IUpdateVehicleTypeRequirement
     : IUpdateEntityCommandRequirement
 {
     string Name { get; }
-    int NumberOfPassengers { get; }
+    long NumberOfPassengers { get; }
 }

@@ -39,6 +39,11 @@ public sealed class VehicleType
         var isUpdatingName = Name != newName;
         if (isUpdatingName)
             Name = newName;
+
+        var newNumberOfPassengers = (int)new NaturalNumber(updateRequirement.NumberOfPassengers, nameof(NumberOfPassengers));
+        var isUpdatingNumberOfPassengers = NumberOfPassengers != newNumberOfPassengers;
+        if (isUpdatingNumberOfPassengers)
+            NumberOfPassengers = newNumberOfPassengers;
     }
     #endregion
 }

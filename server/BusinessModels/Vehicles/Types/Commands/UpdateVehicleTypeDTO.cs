@@ -10,6 +10,6 @@ public abstract class UpdateVehicleTypeDTO
         , IUpdateVehicleTypeRequirement
     {
         public string Name { get; set; }
-        public int NumberOfPassengers { get; set; }
+        public long NumberOfPassengers { get; set; }
     }
 }

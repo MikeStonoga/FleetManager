@@ -1,0 +1,20 @@
+
+<form [formGroup]="form">
+
+    <mat-form-field appearance="fill">
+        <mat-label>{{ nameLabel }}</mat-label>
+        <section class="fx-space-between">
+            <input matInput  formControlName="name">
+            <sdk-icon [configuration]="entityIcon" />
+        </section>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="ml-1">
+        <mat-label>{{ numberOfPassengersLabel }}</mat-label>
+        <section class="fx-space-between">
+            <input matInput  formControlName="numberOfPassengers" type="number" [min]="0">
+            <sdk-icon [configuration]="entityIcon" />
+        </section>
+    </mat-form-field>
+
+</form>
