@@ -7,7 +7,7 @@ import { EntitySelector } from "@commons/components/entities/selector/entity-sel
 import { TranslationService } from '@commons/translations/translation.service';
 import { ISdkIconConfiguration, SdkIcon } from '@sdk/icon/sdk-icon';
 import { FleetsConfiguration } from 'app/pages/restricted-area/fleets/fleets.configuration';
-import { VehiclesConfiguration } from '../../vehicles.configuration';
+import { VehiclesTypesConfiguration } from 'app/pages/restricted-area/vehicles-types/vehicles-types.configuration';
 
 @Component({
   selector: 'app-vehicle-register-template',
@@ -26,8 +26,7 @@ export class VehicleRegisterTemplate  implements IEntityFormTemplate {
   @Input() entityIcon!: ISdkIconConfiguration;
 
   public readonly fleetConfiguration = inject(FleetsConfiguration);
-  public readonly vehicleTypeConfiguration = inject(VehiclesConfiguration); // TODO: Change for vehicle-type-configuration
-
+  public readonly vehicleTypeConfiguration = inject(VehiclesTypesConfiguration);
   private readonly translationService = inject(TranslationService);
   public readonly chassisSeriesLabel = this.translationService.translation.vehicles.chassisSeries;
   public readonly chassisNumberLabel = this.translationService.translation.vehicles.chassisNumber;

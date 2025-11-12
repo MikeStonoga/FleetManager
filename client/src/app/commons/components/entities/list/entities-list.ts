@@ -1,5 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, OnDestroy, QueryList, signal, ViewChildren, ViewContainerRef } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  OnDestroy,
+  QueryList,
+  signal,
+  ViewChildren,
+  ViewContainerRef,
+} from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,10 +22,17 @@ import { ConfirmationDialog } from '@commons/dialogs/confirmation-dialog/confirm
 import { AddIcon, RefreshIcon } from '@commons/icons/icons';
 import { EntityView } from '@commons/models/entity.models';
 import { TranslationService } from '@commons/translations/translation.service';
-import { ISdkButtonConfiguration, SdkButton, SdkButtonConfiguration } from '@sdk/button/sdk-button';
-import { SdkFilter } from "@sdk/filter/sdk-filter";
+import {
+  ISdkButtonConfiguration,
+  SdkButton,
+  SdkButtonConfiguration,
+} from '@sdk/button/sdk-button';
+import { SdkFilter } from '@sdk/filter/sdk-filter';
 import { SdkIcon, SdkIconConfiguration } from '@sdk/icon/sdk-icon';
-import { ISdkToolbarConfiguration, SdkToolbar } from '@sdk/toolbar/sdk-toolbar';
+import {
+  ISdkToolbarConfiguration,
+  SdkToolbar,
+} from '@sdk/toolbar/sdk-toolbar';
 import { GoHomeButtonConfiguration } from 'app/pages/restricted-area/main-toolbar/buttons/go-home.button-configuration';
 import { combineLatest, startWith, Subscription, switchMap } from 'rxjs';
 import { ENTITY_CONFIGURATION } from '../entities.configuration';
@@ -28,58 +47,60 @@ import { EditEntityDialog } from './dialogs/edit/edit-entity-dialog';
     SdkButton,
     SdkIcon,
     SdkToolbar,
-    SdkFilter
-],
+    SdkFilter,
+  ],
   templateUrl: './entities-list.html',
   styleUrl: './entities-list.scss',
   providers: [
     GoHomeButtonConfiguration,
     RefreshIcon,
     AddIcon,
-    RegisterEntityButton
-  ]
+    RegisterEntityButton,
+  ],
 })
-export class EntitiesList implements OnDestroy {
+export class EntitiesList implements AfterViewInit, OnDestroy {
   private readonly configuration = inject(ENTITY_CONFIGURATION);
-  private readonly filterText = signal('');
-  private readonly filter$ = toObservable(this.filterText);
-
-  public get cardTemplate() {
-    return this.configuration.list.cards.contentTemplate;
-  }
-  private readonly destroyRef = inject(DestroyRef);
-  
-  @ViewChildren('EntityContentTemplate', { read: ViewContainerRef })
-  private containers!: QueryList<ViewContainerRef>;
-
-  private get service() { return this.configuration.service; };
-  public get entityIcon() { return this.configuration.icon; }
-  
   private readonly translationService = inject(TranslationService);
   private readonly router = inject(Router);
   private readonly matDialog = inject(MatDialog);
   private readonly snackBar = inject(MatSnackBar);
-  
-  public readonly registerButton = inject(RegisterEntityButton);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly changeDetector = inject(ChangeDetectorRef);
 
-  private readonly refreshIcon = inject(RefreshIcon);
+  @ViewChildren('EntityContentTemplate', { read: ViewContainerRef })
+  private containers!: QueryList<ViewContainerRef>;
+
   private readonly refreshTrigger = signal(0);
+  private readonly filterText = signal('');
   private readonly refresh$ = toObservable(this.refreshTrigger);
-  
+  private readonly filter$ = toObservable(this.filterText);
+
+  private get service() {
+    return this.configuration.service;
+  }
+
+  public get entityIcon() {
+    return this.configuration.icon;
+  }
+
+  // 🔹 Lista de entidades como signal reativo
   public readonly entities = toSignal(
-    combineLatest([this.refresh$.pipe(startWith(0)), this.filter$.pipe(startWith(''))]).pipe(
-      switchMap(([_, filter]) => this.service.getAll({filter}))
-    ),
+    combineLatest([
+      this.refresh$.pipe(startWith(0)),
+      this.filter$.pipe(startWith('')),
+    ]).pipe(switchMap(([_, filter]) => this.service.getAll({ filter }))),
     { initialValue: [] }
   );
+
+  // Botões da toolbar
+  private readonly refreshIcon = inject(RefreshIcon);
   private readonly goHomeButton = inject(GoHomeButtonConfiguration);
+  public readonly registerButton = inject(RegisterEntityButton);
 
   private readonly refreshButton = new SdkButtonConfiguration({
     label: this.translationService.translation.commons.refresh,
     icon: this.refreshIcon,
-    onClick: () => {
-      this.refreshTrigger.update(v => v + 1); // Dispara o reload
-    }
+    onClick: () => this.refreshTrigger.update((v) => v + 1),
   });
 
   public toolbarConfiguration: ISdkToolbarConfiguration = {
@@ -90,16 +111,13 @@ export class EntitiesList implements OnDestroy {
       this.refreshButton,
       this.registerButton,
       this.goHomeButton,
-    ]
+    ],
   };
 
-  private refreshSubscription: Subscription;
-  
-  public get vehiclesCountLabel() {
-    return this.translationService.translation.commons.vehiclesCount;
-  }
+  private refreshSubscription!: Subscription;
 
   constructor() {
+    // 🔹 Dispara refresh quando necessário
     this.refreshSubscription = this.service.listRefreshRequested.subscribe(() => {
       this.refreshButton.onClick();
     });
@@ -107,39 +125,56 @@ export class EntitiesList implements OnDestroy {
     this.entityIcon.changeColor(VolvoColors.Black);
     this.goHomeButton.icon.changeColor(VolvoColors.Black);
 
-  }
-
-  ngOnDestroy(): void {
-    this.refreshSubscription.unsubscribe();
+    // 🔹 Reage automaticamente à mudança de entities()
+    effect(() => {
+      const items = this.entities();
+      if (!this.containers) return; // evita erro antes do AfterViewInit
+      queueMicrotask(() => this.createDynamicCards());
+    });
   }
 
   ngAfterViewInit(): void {
-    // Aguarda os containers do template estarem disponíveis
+    // 🔹 Garante reconstrução quando containers são renderizados
     this.containers.changes.subscribe(() => this.createDynamicCards());
     this.createDynamicCards();
   }
 
+  ngOnDestroy(): void {
+    this.refreshSubscription?.unsubscribe();
+  }
+
   private createDynamicCards(): void {
+    if (!this.containers || this.containers.length === 0) return;
+
     const templateType = this.configuration.list.cards.contentTemplate;
     const items = this.entities();
 
-    // Garante mesma contagem (1 container por entidade)
+    // 🔹 Garante mesma contagem (1 container por entidade)
     this.containers.forEach((container, index) => {
       container.clear();
+      const entity = items[index];
+      if (!entity) return;
+
       const ref = container.createComponent(templateType);
-      (ref.instance as any).entity = items[index];
+      (ref.instance as any).entity = entity;
     });
+
+    this.changeDetector.detectChanges();
   }
 
-  
+  // Filtro
   onFilterChange(value: string) {
     this.filterText.set(value);
   }
 
+  // 🔹 Botões de ação
   editButtonConfig(entity: EntityView) {
     return new SdkButtonConfiguration({
       label: this.translationService.translation.commons.edit,
-      icon: new SdkIconConfiguration({ name: 'edit', color: VolvoColors.Black }),
+      icon: new SdkIconConfiguration({
+        name: 'edit',
+        color: VolvoColors.Black,
+      }),
       onClick: () => this.openEditModal(entity),
     });
   }
@@ -147,44 +182,47 @@ export class EntitiesList implements OnDestroy {
   removeButtonConfig(entity: EntityView): ISdkButtonConfiguration {
     return new SdkButtonConfiguration({
       label: this.translationService.translation.commons.remove,
-      icon: new SdkIconConfiguration({ name: 'delete', color: VolvoColors.Black }),
+      icon: new SdkIconConfiguration({
+        name: 'delete',
+        color: VolvoColors.Black,
+      }),
       onClick: () => {
-        this.matDialog.open(ConfirmationDialog, { data: this.translationService.translation.commons.remove + ' ' + this.configuration.nameSingular })
-          .afterClosed()
-          .subscribe(result => {
-            if (!result)
-              return;
-
-            this.service.remove(entity.id)
-              .subscribe(response => {
-                if (!response)
-                  return;
-
-                this.service.listRefreshRequested.next();
-                this.snackBar.open(this.translationService.translation.commons.removed, 'Ok', { duration: 3000 } );
-              })
+        this.matDialog
+          .open(ConfirmationDialog, {
+            data:
+              this.translationService.translation.commons.remove +
+              ' ' +
+              this.configuration.nameSingular,
           })
-      },
-    });
-  }
+          .afterClosed()
+          .subscribe((result) => {
+            if (!result) return;
 
-  detailsButtonConfig(entity: EntityView) {
-    return new SdkButtonConfiguration({
-      label: this.translationService.translation.commons.goToDetails,
-      icon: new SdkIconConfiguration({ name: 'open_in_new', color: VolvoColors.Black }),
-      onClick: () => {
-        this.service.currentSelected = entity;
-        this.router.navigate([`/restricted-area/${this.configuration.entityRoute}/details/${entity.id}`])
+            this.service.remove(entity.id).subscribe((response) => {
+              if (!response) return;
+              this.service.listRefreshRequested.next();
+              this.snackBar.open(
+                this.translationService.translation.commons.removed,
+                'Ok',
+                { duration: 3000 }
+              );
+            });
+          });
       },
     });
   }
 
   openEditModal(entity: EntityView) {
-    this.matDialog.open(EditEntityDialog, {
-      data: {
-        entity,
-        configuration: this.configuration
-      }
-    })
+    this.matDialog
+      .open(EditEntityDialog, {
+        data: {
+          entity,
+          configuration: this.configuration,
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) this.service.listRefreshRequested.next();
+      });
   }
 }
