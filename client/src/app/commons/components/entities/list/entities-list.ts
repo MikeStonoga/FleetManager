@@ -74,6 +74,10 @@ export class EntitiesList implements AfterViewInit, OnDestroy {
   private readonly filterText = signal('');
   private readonly refresh$ = toObservable(this.refreshTrigger);
   private readonly filter$ = toObservable(this.filterText);
+  public readonly emptyListIcon = new SdkIconConfiguration({
+    name: 'info',
+    color: VolvoColors.DarkBlue,
+  });
 
   private get service() {
     return this.configuration.service;

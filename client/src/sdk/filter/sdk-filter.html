@@ -1,6 +1,9 @@
-<input
-  type="text"
-  class="filter-input"
-  [placeholder]="filterLabel"
-  (input)="onInput($any($event.target).value)"
-/>
+<mat-form-field appearance="outline" class="filter-field">
+  <mat-label>{{ filterLabel }}</mat-label>
+  <input
+    matInput
+    type="text"
+    (input)="onInput($any($event.target).value)"
+    placeholder="{{ filterLabel }}"
+  />
+</mat-form-field>

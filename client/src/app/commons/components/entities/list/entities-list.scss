@@ -6,16 +6,28 @@
   width: 100%;
   height: calc(100vh - 4rem - 4rem);
   overflow-x: hidden;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+  /* 🔹 Imagem de fundo mantida */
   background-image: url('/fleet.jpg');
-  background-position: center; 
+  background-position: center;
   background-repeat: no-repeat;
-  background-size: cover; 
+  background-size: cover;
+
+  /* 🔹 Layout padrão para cards */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+  /* 🔹 Quando só existe o card vazio, centralize */
+  &:has(.empty-card) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
+/* 🔹 Cards das entidades */
 .entity-card {
   position: relative;
-  background: rgba(255, 255, 255, 0.60); /* translúcido */
+  background: rgba(255, 255, 255, 0.6); /* translúcido */
   backdrop-filter: blur(10px); /* vidro fosco */
   border-radius: 1.25rem;
   color: white;
@@ -44,14 +56,15 @@
     }
 
     .entity-info {
-        h3 {
-            margin: 0;
-            font-size: 1.5rem;
-            font-weight: 500;
-        }
-        
-        p {
-        color: black;
+      h3 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: #000;
+      }
+
+      p {
+        color: #000;
         margin: 0.25rem 0 0;
         font-size: 1.2rem;
         opacity: 0.8;
@@ -89,7 +102,49 @@
   }
 }
 
-/* Animação de entrada */
+/* 🔹 Card exibido quando não há registros */
+.empty-card {
+  width: 100%;
+  max-width: 480px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  border-radius: 1.25rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #202a44;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.8s ease-in-out;
+
+  .empty-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  sdk-icon {
+    opacity: 0.85;
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    margin: 0;
+    font-weight: 500;
+    font-size: 1.4rem;
+  }
+
+  p {
+    margin-top: 0.3rem;
+    color: #333;
+    font-size: 0.95rem;
+  }
+}
+
+/* 🔹 Animação de entrada */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -101,7 +156,7 @@
   }
 }
 
-/* Responsividade */
+/* 🔹 Responsividade */
 @media (max-width: 600px) {
   .entities-container {
     padding: 1rem;
@@ -110,6 +165,7 @@
 
   .entity-card {
     padding: 1rem;
+
     .entity-header sdk-icon {
       width: 2rem;
       height: 2rem;
@@ -117,6 +173,18 @@
 
     .entity-info h3 {
       font-size: 1rem;
+    }
+  }
+
+  .empty-card {
+    padding: 2rem 1rem;
+
+    h3 {
+      font-size: 1.1rem;
+    }
+
+    p {
+      font-size: 0.85rem;
     }
   }
 }

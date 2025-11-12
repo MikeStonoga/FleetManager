@@ -28,4 +28,16 @@
       <div class="reflection"></div>
     </mat-card>
   }
+
+  @empty {
+    <mat-card class="empty-card fade-in">
+      <div class="empty-content">
+        <sdk-icon
+          [configuration]="emptyListIcon"
+        />
+        <h3>Nenhum registro encontrado</h3>
+        <p>Tente ajustar o filtro ou adicione um novo item.</p>
+      </div>
+    </mat-card>
+  }
 </div>

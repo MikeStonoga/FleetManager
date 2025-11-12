@@ -1,16 +1,45 @@
-.filter-input {
-  border: none;
-  outline: none;
-  background: rgba(255, 255, 255, 0.7);
-  padding: 0.4rem 0.8rem;
-  border-radius: 0.5rem;
-  font-size: 0.95rem;
-  color: #000;
-  min-width: 200px;
-  transition: all 0.2s ease;
+.filter-field {
+  width: 240px;
+  min-width: 180px;
+  margin-top: 0.6rem;
 
-  &:focus {
-    background: #fff;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+  // Aparência consistente
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    margin-top: 0.6rem;
+    margin-left: 0.5rem;
+  }
+
+  ::ng-deep .mat-mdc-form-field-outline {
+    stroke: rgba(0, 0, 0, 0.15);
+  }
+
+  ::ng-deep input.mat-input-element {
+    font-size: 0.95rem;
+    color: #000;
+  }
+
+  // Hover e foco sutis
+  ::ng-deep .mat-mdc-form-field:hover .mat-mdc-form-field-outline,
+  ::ng-deep .mat-mdc-form-field.mat-focused .mat-mdc-form-field-outline {
+    stroke: rgba(0, 0, 0, 0.3);
+  }
+
+  // 🔹 Responsividade
+  @media (max-width: 768px) {
+    width: 160px;
+    ::ng-deep input.mat-input-element {
+      font-size: 0.85rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    width: 140px;
+    ::ng-deep .mat-mdc-text-field-wrapper {
+      padding: 0.1rem 0.4rem;
+      width: 9rem;
+    }
   }
 }
