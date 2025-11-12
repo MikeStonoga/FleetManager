@@ -6,6 +6,13 @@ import { AppTranslation } from "./app.translation";
 })
 export class BrazilianPortugueseTranslation 
 implements AppTranslation {
+    login = {
+        user: 'Usuário',
+        password: 'Senha',
+        logoutLabel: 'Sair',
+        enter: 'Entrar'
+    };
+
     commons = {
         yes: 'Sim',
         no: 'Não',

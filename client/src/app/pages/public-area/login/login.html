@@ -1,0 +1,32 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <img
+      src="Volvo-Spread-Word-Mark-Black.svg"
+      alt="Volvo Logo"
+      class="volvo-logo"
+    />
+
+    <h2 class="title">Fleet Manager</h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ userLabel }}</mat-label>
+        <input matInput formControlName="username" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ passwordLabel }}</mat-label>
+        <input matInput type="password" formControlName="password" />
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" class="full-width" type="submit">
+        <section class="fx-align-start">
+          <sdk-icon [configuration]="loginIcon" />
+          <span class="ml-half">{{ enterLabel }}</span>
+        </section>
+      </button>
+
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+    </form>
+  </mat-card>
+</div>

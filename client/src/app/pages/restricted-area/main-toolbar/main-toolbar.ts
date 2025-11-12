@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, viewChild } from '@angular/core';
+import { Component, computed, inject, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -14,6 +14,7 @@ import { SdkButton, SdkButtonConfiguration } from "../../../../sdk/button/sdk-bu
 import { SdkIcon, SdkIconConfiguration } from '../../../../sdk/icon/sdk-icon';
 import { VolvoColors } from '../../../commons/colors';
 import { GoHomeButtonConfiguration } from './buttons/go-home.button-configuration';
+import { LogoutButton } from './buttons/logout.button-configuration';
 import { IMenu, Menus } from './menus';
 
 @Component({
@@ -41,6 +42,9 @@ import { IMenu, Menus } from './menus';
 export class MainToolbar {
   private drawer = viewChild.required<MatDrawer>('drawer');
   public readonly volvoDarkBlue = VolvoColors.DarkBlue;
+  private readonly translationService = inject(TranslationService);
+  
+  public readonly logoutButtonConfiguration = inject(LogoutButton);
 
   onMenuSelected(menu: IMenu) {
     this.router.navigateByUrl(menu.route);
@@ -71,7 +75,6 @@ export class MainToolbar {
     public readonly goHomeButtonConfiguration: GoHomeButtonConfiguration,
     public readonly menus: Menus,
     private readonly router: Router,
-    private readonly translationService: TranslationService
   ) {
 
   }

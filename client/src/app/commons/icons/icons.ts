@@ -11,6 +11,8 @@ export const ICONS = {
     Refresh: 'refresh',
     Add: 'add_circle',
     Warning: 'warning',
+    Logout: 'logout',
+    Login: 'login'
 }
 
 @Injectable({ providedIn: 'root' })

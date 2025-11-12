@@ -1,4 +1,11 @@
 export interface AppTranslation {
+    login: {
+        enter: string;
+        user: string;
+        password: string;
+        logoutLabel: string;
+    };
+
     commons: {
         filter: string;
         yes: string;
