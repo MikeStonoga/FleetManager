@@ -1,5 +1,6 @@
 export interface AppTranslation {
     commons: {
+        filter: string;
         yes: string;
         no: string;
         areYouSure: string;

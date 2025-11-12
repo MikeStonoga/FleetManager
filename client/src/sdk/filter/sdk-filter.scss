@@ -1,0 +1,16 @@
+.filter-input {
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  color: #000;
+  min-width: 200px;
+  transition: all 0.2s ease;
+
+  &:focus {
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+  }
+}

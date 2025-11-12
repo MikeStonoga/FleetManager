@@ -14,7 +14,7 @@ public interface IDataGateway<TIEntity, TIEntityView>
     Task<TIEntity?> GetById(Guid id);
     Task<TIEntityView?> GetViewById(Guid id);
     Task<IEnumerable<TIEntity>> GetAll(Expression<Func<TIEntity, bool>>? predicate = null);
-    Task<IEnumerable<TIEntityView>> GetAllViews(Expression<Func<TIEntityView, bool>>? predicate = null);
+    Task<IEnumerable<TIEntityView>> GetAllViews(string filter);
     Task<int> Count(Expression<Func<TIEntity, bool>>? predicate = null);
 
     Task<TIEntity> Register(TIEntity entity);

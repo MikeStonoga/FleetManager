@@ -44,9 +44,9 @@ public abstract class Controller<
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.UnprocessableEntity)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] string? filter = null)
     {
-        var result = await UseCases.GetAllViews();
+        var result = await UseCases.GetAllViews(filter ?? string.Empty);
         return Ok(result);
     }
 

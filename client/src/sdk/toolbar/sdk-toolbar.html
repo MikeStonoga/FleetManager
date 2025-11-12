@@ -8,6 +8,7 @@
         </section>
         
         <section class="fx-align-end">
+            <ng-content />
             @for (button of configuration().endButtons; track $index) {
                 <sdk-button [configuration]="button" />
             }

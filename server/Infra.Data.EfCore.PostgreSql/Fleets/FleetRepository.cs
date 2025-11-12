@@ -25,4 +25,10 @@ public class FleetRepository
 
     protected override Expression<Func<FleetView, IdCodeAndLabelDTO>> GetIdCodeAndLabelExpression
         => fleet => new IdCodeAndLabelDTO(fleet.Id, fleet.Code, fleet.Name);
+
+    protected override Expression<Func<FleetView, string?>>[] GetFilterableColumns
+        => [
+       f => f.Name,
+        f => f.Code.ToString()
+        ];
 }

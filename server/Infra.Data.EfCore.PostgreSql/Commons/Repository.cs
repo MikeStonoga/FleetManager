@@ -116,20 +116,87 @@ public abstract class Repository<
         return result;
     }
 
-    public async Task<IEnumerable<TIEntityView>> GetAllViews(Expression<Func<TIEntityView, bool>>? predicate = null)
+    protected abstract Expression<Func<TEntityView, string?>>[] GetFilterableColumns { get; }
+
+    public async Task<IEnumerable<TIEntityView>> GetAllViews(string? filter = null)
     {
-        IQueryable<TIEntityView> query = AppDbContext
+        IQueryable<TEntityView> query = AppDbContext
             .Set<TEntityView>()
             .AsNoTracking();
 
-        if (predicate != null)
-            query = query.Where(predicate);
+        if (!string.IsNullOrWhiteSpace(filter))
+        {
+            var words = filter
+                .Trim()
+                .ToLower()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            var provider = AppDbContext.Database.ProviderName?.ToLower() ?? string.Empty;
+
+            Type dbFunctionsType;
+            string methodName;
+
+            if (provider.Contains("npgsql"))
+            {
+                dbFunctionsType = typeof(NpgsqlDbFunctionsExtensions);
+                methodName = "ILike";
+            }
+            else
+            {
+                dbFunctionsType = typeof(Microsoft.EntityFrameworkCore.DbFunctionsExtensions);
+                methodName = "Like";
+            }
+
+            var likeMethod = dbFunctionsType.GetMethod(
+                methodName,
+                new[] { typeof(DbFunctions), typeof(string), typeof(string) }
+            ) ?? throw new InvalidOperationException($"Método {methodName} não encontrado em {dbFunctionsType.FullName}.");
+
+            foreach (var word in words)
+            {
+                var w = $"%{word}%";
+                Expression? bodyCombined = null;
+                var parameter = Expression.Parameter(typeof(TEntityView), "e");
+
+                foreach (var column in GetFilterableColumns)
+                {
+                    var replacedBody = ReplaceParameter(column.Body, column.Parameters[0], parameter);
+
+                    var property = Expression.Coalesce(
+                        replacedBody,
+                        Expression.Constant(string.Empty)
+                    );
+
+                    var body = Expression.Call(
+                        null,
+                        likeMethod,
+                        Expression.Property(null, typeof(EF), nameof(EF.Functions)),
+                        property,
+                        Expression.Constant(w)
+                    );
+
+                    bodyCombined = bodyCombined == null
+                        ? body
+                        : Expression.OrElse(bodyCombined, body);
+                }
+
+                if (bodyCombined != null)
+                {
+                    var lambda = Expression.Lambda<Func<TEntityView, bool>>(bodyCombined, parameter);
+                    query = query.Where(lambda);
+                }
+            }
+
+        }
 
         var result = await query
             .OrderByDescending(e => e.LastModificationTime ?? e.CreationTime)
+            .Cast<TIEntityView>()
             .ToListAsync();
+
         return result;
     }
+
 
     public async Task<TIEntityView?> GetView(Expression<Func<TIEntityView, bool>> predicate)
     {
@@ -153,4 +220,32 @@ public abstract class Repository<
 
     protected abstract Expression<Func<TEntityView, IdCodeAndLabelDTO>> GetIdCodeAndLabelExpression { get; }
 
+
+    /// <summary>
+    /// Substitui um parâmetro em uma expressão (evita Expression.Invoke)
+    /// </summary>
+    internal static Expression ReplaceParameter(Expression body, ParameterExpression oldParameter, ParameterExpression newParameter)
+    {
+        return new ParameterReplacer(oldParameter, newParameter).Visit(body);
+    }
+
+    /// <summary>
+    /// Visitor que substitui parâmetros em expressões lambda
+    /// </summary>
+    internal class ParameterReplacer : ExpressionVisitor
+    {
+        private readonly ParameterExpression _oldParameter;
+        private readonly ParameterExpression _newParameter;
+
+        public ParameterReplacer(ParameterExpression oldParameter, ParameterExpression newParameter)
+        {
+            _oldParameter = oldParameter;
+            _newParameter = newParameter;
+        }
+
+        protected override Expression VisitParameter(ParameterExpression node)
+        {
+            return node == _oldParameter ? _newParameter : base.VisitParameter(node);
+        }
+    }
 }

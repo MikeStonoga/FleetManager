@@ -24,7 +24,7 @@ public interface IUseCases<
     Task<IEnumerable<IIdCodeAndLabelDTO>> GetIdsCodesAndLabels();
 
     Task<IEnumerable<TIEntity>> GetAll(Expression<Func<TIEntity, bool>>? predicate = null);
-    Task<IEnumerable<TIEntityView>> GetAllViews(Expression<Func<TIEntityView, bool>>? predicate = null);
+    Task<IEnumerable<TIEntityView>> GetAllViews(string filter);
     Task<int> Count(Expression<Func<TIEntity, bool>>? predicate = null);
     Task<TIEntityView> Register(TIRegiterEntityRequirement requirement);
     Task<TIEntityView> Update(TIUpdateEntityRequirement requirement);

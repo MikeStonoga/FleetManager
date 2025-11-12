@@ -45,8 +45,8 @@ public class UseCases<
     public async Task<IEnumerable<TIEntity>> GetAll(Expression<Func<TIEntity, bool>>? predicate = null)
         => await DataGateway.GetAll(predicate);
 
-    public async Task<IEnumerable<TIEntityView>> GetAllViews(Expression<Func<TIEntityView, bool>>? predicate = null)
-        => await DataGateway.GetAllViews(predicate);
+    public async Task<IEnumerable<TIEntityView>> GetAllViews(string filter)
+        => await DataGateway.GetAllViews(filter);
 
     public async Task<TIEntity?> GetById(Guid id)
     {

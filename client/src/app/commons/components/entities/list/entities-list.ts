@@ -11,10 +11,11 @@ import { AddIcon, RefreshIcon } from '@commons/icons/icons';
 import { EntityView } from '@commons/models/entity.models';
 import { TranslationService } from '@commons/translations/translation.service';
 import { ISdkButtonConfiguration, SdkButton, SdkButtonConfiguration } from '@sdk/button/sdk-button';
+import { SdkFilter } from "@sdk/filter/sdk-filter";
 import { SdkIcon, SdkIconConfiguration } from '@sdk/icon/sdk-icon';
 import { ISdkToolbarConfiguration, SdkToolbar } from '@sdk/toolbar/sdk-toolbar';
 import { GoHomeButtonConfiguration } from 'app/pages/restricted-area/main-toolbar/buttons/go-home.button-configuration';
-import { startWith, Subscription, switchMap } from 'rxjs';
+import { combineLatest, startWith, Subscription, switchMap } from 'rxjs';
 import { ENTITY_CONFIGURATION } from '../entities.configuration';
 import { RegisterEntityButton } from './buttons/register-entity-button';
 import { EditEntityDialog } from './dialogs/edit/edit-entity-dialog';
@@ -22,12 +23,13 @@ import { EditEntityDialog } from './dialogs/edit/edit-entity-dialog';
 @Component({
   selector: 'app-entities-list',
   imports: [
-    CommonModule, 
-    MatCardModule, 
+    CommonModule,
+    MatCardModule,
     SdkButton,
-    SdkIcon, 
-    SdkToolbar
-  ],
+    SdkIcon,
+    SdkToolbar,
+    SdkFilter
+],
   templateUrl: './entities-list.html',
   styleUrl: './entities-list.scss',
   providers: [
@@ -39,6 +41,8 @@ import { EditEntityDialog } from './dialogs/edit/edit-entity-dialog';
 })
 export class EntitiesList implements OnDestroy {
   private readonly configuration = inject(ENTITY_CONFIGURATION);
+  private readonly filterText = signal('');
+  private readonly filter$ = toObservable(this.filterText);
 
   public get cardTemplate() {
     return this.configuration.list.cards.contentTemplate;
@@ -63,13 +67,11 @@ export class EntitiesList implements OnDestroy {
   private readonly refresh$ = toObservable(this.refreshTrigger);
   
   public readonly entities = toSignal(
-    this.refresh$.pipe(
-      startWith(0), // executa uma vez no início
-      switchMap(() => this.service.getAll())
+    combineLatest([this.refresh$.pipe(startWith(0)), this.filter$.pipe(startWith(''))]).pipe(
+      switchMap(([_, filter]) => this.service.getAll({filter}))
     ),
     { initialValue: [] }
   );
-
   private readonly goHomeButton = inject(GoHomeButtonConfiguration);
 
   private readonly refreshButton = new SdkButtonConfiguration({
@@ -127,6 +129,11 @@ export class EntitiesList implements OnDestroy {
       const ref = container.createComponent(templateType);
       (ref.instance as any).entity = items[index];
     });
+  }
+
+  
+  onFilterChange(value: string) {
+    this.filterText.set(value);
   }
 
   editButtonConfig(entity: EntityView) {

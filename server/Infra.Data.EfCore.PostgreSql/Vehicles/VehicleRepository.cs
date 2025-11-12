@@ -25,4 +25,16 @@ public class VehicleRepository
 
     protected override Expression<Func<VehicleView, IdCodeAndLabelDTO>> GetIdCodeAndLabelExpression
         => vehicle => new IdCodeAndLabelDTO(vehicle.Id, vehicle.Code, vehicle.ChassisId);
+
+    protected override Expression<Func<VehicleView, string?>>[] GetFilterableColumns
+        => [
+        f => f.ChassisId,
+        f => f.ChassisSeries,
+        f => f.ChassisNumber.ToString(),
+        f => f.FleetName,
+        f => f.TypeName,
+        f => f.Color,
+        f => f.NumberOfPassengers.ToString(),
+        f => f.Code.ToString()
+    ];
 }

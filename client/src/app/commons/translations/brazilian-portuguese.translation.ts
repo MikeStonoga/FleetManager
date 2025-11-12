@@ -19,6 +19,7 @@ implements AppTranslation {
         edited: 'Editado',
         remove: 'Remover',
         removed: 'Removido',
+        filter: 'Filtro',
         save: 'Salvar',
         vehiclesCount: 'Número de veículos:',
         properties: {

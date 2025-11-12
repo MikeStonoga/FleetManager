@@ -1,4 +1,7 @@
-<sdk-toolbar [configuration]="toolbarConfiguration" />
+<sdk-toolbar [configuration]="toolbarConfiguration">
+  <sdk-filter toolbar-start (changed)="onFilterChange($event)" />
+</sdk-toolbar>
+
 <div class="entities-container">
 
   @for (entity of entities(); track entity.id) {

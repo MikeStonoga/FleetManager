@@ -22,9 +22,10 @@ export abstract class EntitiesService<
     return this.httpClient.get<IdCodeAndLabelDTO[]>(`${this.baseAddress}/GetIdsCodesAndLabels`);
   }
 
-  getAll(): Observable<TEntityView[]> {
-    return this.httpClient.get<TEntityView[]>(`${this.baseAddress}/GetAll`);
-  }
+  getAll(requirement: { filter: string }): Observable<TEntityView[]> {
+  const params = requirement.filter ? `?filter=${encodeURIComponent(requirement.filter)}` : '';
+  return this.httpClient.get<TEntityView[]>(`${this.baseAddress}/GetAll${params}`);
+}
 
   register<TRegisterRequirement>(req: TRegisterRequirement) {
     return this.httpClient.post<TEntityView>(`${this.baseAddress}/Register`, req);
