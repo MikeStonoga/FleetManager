@@ -3,10 +3,10 @@ services:
   client:
     build:
       context: ./client
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile
     container_name: fleetmanager-client
     ports:
-      - "4201:80"           
+      - "4200:4200"           
     depends_on:
       - server
     networks:
@@ -19,7 +19,7 @@ services:
       dockerfile: Dockerfile
     container_name: fleetmanager-server
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=fleetdb;Username=postgres;Password=postgres
     ports:
       - "5000:8080"
@@ -38,8 +38,8 @@ services:
       - POSTGRES_DB=fleetdb
     volumes:
       - pgdata:/var/lib/postgresql/data
-    # ports:
-    #   - "5432:5432"
+    ports:
+      - "5432:5432"
     networks:
       - fleetnet
 

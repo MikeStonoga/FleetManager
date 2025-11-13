@@ -1,0 +1,78 @@
+version: "3.9"
+
+services:
+  # =============== FRONTEND (Angular 20 - Produção) ===============
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.prod
+    container_name: fleetmanager-client-prod
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "8080:80"
+    depends_on:
+      - server
+    networks:
+      - fleetnet-prod
+    restart: always
+
+  # =============== BACKEND (.NET API - Produção) ===============
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: fleetmanager-server-prod
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=fleetdb;Username=postgres;Password=${POSTGRES_PASSWORD}
+      - ASPNETCORE_URLS=http://+:8080
+    ports:
+      - "5000:8080"
+    depends_on:
+      - db
+    networks:
+      - fleetnet-prod
+    restart: always
+
+  # =============== DATABASE (PostgreSQL - Produção) ===============
+  db:
+    image: postgres:16
+    container_name: fleetmanager-db-prod
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=fleetdb
+    volumes:
+      - pgdata-prod:/var/lib/postgresql/data
+    networks:
+      - fleetnet-prod
+    restart: always
+
+  # =============== PGADMIN (SGBD) ===============
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: fleetmanager-pgadmin-prod
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@volvo.com
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
+      - PGADMIN_SERVER_JSON_FILE=/pgadmin4/servers.json
+      - PGADMIN_REPLACE_SERVERS_ON_STARTUP=True
+    ports:
+      - "8081:80"
+    volumes:
+      - pgadmin_data-prod:/var/lib/pgadmin
+      - ./pgadmin/servers.json:/pgadmin4/servers.json
+      - ./pgadmin/pgpass:/pgpass
+    depends_on:
+      - db
+    networks:
+      - fleetnet-prod
+    restart: always
+
+networks:
+  fleetnet-prod:
+
+volumes:
+  pgdata-prod:
+  pgadmin_data-prod:
