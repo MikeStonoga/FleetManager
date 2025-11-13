@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using Npgsql;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Text.Json;
 
@@ -24,12 +26,21 @@ public class ErrorsHandlerMiddleware
         catch (ValidationException ex)
         {
             _logger.LogWarning(ex, "Validation error intercepted: {Message}", ex.Message);
-            await HandleExceptionAsync(context, ex, HttpStatusCode.UnprocessableEntity, $"Validation Error: {ex.Message}!");
+            await HandleExceptionAsync(context, ex, HttpStatusCode.UnprocessableEntity,
+                $"Validation Error: {ex.Message}!");
         }
+        catch (DbUpdateException ex) when (ex.InnerException is PostgresException pg && pg.SqlState == "23505")
+        {
+            _logger.LogWarning(ex, "Unique constraint violation");
+            await HandleExceptionAsync(context, ex, HttpStatusCode.UnprocessableEntity,
+                "A record with this information already exists. Please verify the details and try again.");
+        }
+
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unexpected error intercepted: {Message}", ex.Message);
-            await HandleExceptionAsync(context, ex, HttpStatusCode.InternalServerError, "An unexpected error occurred. Please contact support.");
+            await HandleExceptionAsync(context, ex, HttpStatusCode.InternalServerError,
+                "An unexpected error occurred. Please contact support.");
         }
     }
 
